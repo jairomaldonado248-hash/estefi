@@ -2,88 +2,135 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Solo para ti ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solo para ti 💖</title>
 
 <style>
 body{
-font-family: 'Segoe UI', sans-serif;
-background: linear-gradient(135deg,#e13c72,#a25298);
-color:white;
-text-align:center;
-padding:40px;
+    margin:0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#ff9acb,#ff6fa5);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    text-align:center;
+    color:white;
 }
-
-.tarjeta{
-background: rgba(255,255,255,0.1);
-padding:30px;
-border-radius:20px;
-max-width:500px;
-margin:auto;
-backdrop-filter: blur(10px);
-animation: fadeIn 1s ease;
+.card{
+    background:white;
+    color:#333;
+    padding:30px;
+    border-radius:20px;
+    width:90%;
+    max-width:400px;
 }
-
-button{
-padding:12px 25px;
-border:none;
-border-radius:10px;
-background:#ff4b6c;
-color:white;
-font-size:16px;
-cursor:pointer;
-transition:0.3s;
-}
-
-button:hover{
-transform:scale(1.05);
-}
-
 input{
-padding:12px;
-border-radius:10px;
-border:none;
-margin-top:10px;
-width:80%;
+    width:100%;
+    padding:10px;
+    margin-top:15px;
+    border-radius:10px;
+    border:1px solid #ccc;
 }
-
-.oculto{
-display:none;
-margin-top:20px;
+button{
+    margin-top:15px;
+    padding:10px 20px;
+    border:none;
+    border-radius:10px;
+    background:#ff6fa5;
+    color:white;
+    cursor:pointer;
 }
-
-@keyframes fadeIn{
-from{opacity:0; transform:translateY(20px);}
-to{opacity:1; transform:translateY(0);}
+button:hover{
+    background:#ff4f92;
+}
+.hidden{
+    display:none;
 }
 </style>
 </head>
-
 <body>
 
-<div class="tarjeta">
-<h2>💌 Solo para ti mi niña hermosa</h2>
-<p>🎵 Reproduce “Por Qué Sin Ti – Claudio Alcaraz” mientras lees esto ❤️</p>
+<div class="card">
 
-<h3>Responde y desbloquea algo especial 💖</h3>
+<h3 id="pregunta"></h3>
 
-<input type="text" id="respuesta" placeholder="Escribe algo bonito...">
-<br><br>
-<button onclick="mostrar()">Responder</button>
+<form id="form">
+<input type="text" id="respuestaInput" required placeholder="Escribe tu respuesta aquí 💌">
+<button type="submit">Responder</button>
+</form>
 
-<div id="mensaje" class="oculto">
-<h2>💖 Te amo mucho mi niña Estefi 💖</h2>
-<p>Eres lo más bonito que me ha pasado ❤️</p>
+<div id="respuestaTuya" class="hidden">
+<h4>💖 Mi respuesta:</h4>
+<p id="textoRespuesta"></p>
+<button onclick="siguiente()">Continuar</button>
 </div>
 
 </div>
 
 <script>
-function mostrar(){
-let texto = document.getElementById("respuesta").value;
-if(texto.trim() !== ""){
-document.getElementById("mensaje").style.display="block";
+
+const preguntas = [
+"¿Cuál es tu color favorito?",
+"¿Qué ciudad te gustaría conocer?",
+"¿En qué momento de tu vida sentiste que creciste más?",
+"¿Qué frase te motiva en los días difíciles?"
+];
+
+const respuestasMias = [
+"Mi color favorito es el que veo en tus ojos 💗",
+"Quiero conocer cualquier ciudad, mientras sea contigo ✈️",
+"El momento que más crecí fue cuando aprendí a valorar lo que siento por ti 💞",
+"Mi frase siempre es: todo vale la pena si estás tú 💖"
+];
+
+let indice = 0;
+
+const preguntaHTML = document.getElementById("pregunta");
+const form = document.getElementById("form");
+const respuestaDiv = document.getElementById("respuestaTuya");
+const textoRespuesta = document.getElementById("textoRespuesta");
+
+preguntaHTML.textContent = preguntas[indice];
+
+form.addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const respuestaElla = document.getElementById("respuestaInput").value;
+
+    fetch("https://formspree.io/f/mykdozrr", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            pregunta: preguntas[indice],
+            respuesta: respuestaElla
+        })
+    });
+
+    textoRespuesta.textContent = respuestasMias[indice];
+
+    form.classList.add("hidden");
+    respuestaDiv.classList.remove("hidden");
+});
+
+function siguiente(){
+    indice++;
+
+    if(indice < preguntas.length){
+        preguntaHTML.textContent = preguntas[indice];
+        document.getElementById("respuestaInput").value = "";
+        respuestaDiv.classList.add("hidden");
+        form.classList.remove("hidden");
+    } else {
+        document.querySelector(".card").innerHTML = `
+        <h2>✨ Te amo mucho mi niña Estefi 💖</h2>
+        <p>Eres lo más bonito que me ha pasado 💞</p>
+        `;
+    }
 }
-}
+
 </script>
 
 </body>
