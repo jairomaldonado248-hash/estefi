@@ -1,176 +1,90 @@
 <!DOCTYPE html>
 <html lang="es">
-<cabeza>
-<meta conjunto de caracteres=„UTF-8">
-<típulo>Solo para ti ❤️</típulo>
+<head>
+<meta charset="UTF-8">
+<title>Solo para ti ❤️</title>
 
-<estilo>
-cuerpo{
- familia de fuentes: 'Interfaz de usuario de Segoe', sans-serif;
- fondo: gradiente lineal(135deg,#1e3c72,#2a5298);
- color:blanco;
- alineación de texto:centro;
- aclamado:40px;
+<style>
+body{
+font-family: 'Segoe UI', sans-serif;
+background: linear-gradient(135deg,#e13c72,#a25298);
+color:white;
+text-align:center;
+padding:40px;
 }
 
-. .tarjeta{
- fondo: rgba(255,255,255,0,1);
- aclamado:30px;
- radio fronterizo:20px;
- ancho máximo:500px;
- margen:auto;
- filtrado de fondo: desenfocar(10px);
- animación: fadeIn 1s facilidad;
+.tarjeta{
+background: rgba(255,255,255,0.1);
+padding:30px;
+border-radius:20px;
+max-width:500px;
+margin:auto;
+backdrop-filter: blur(10px);
+animation: fadeIn 1s ease;
 }
 
-botón{
- aclamado:12px 25px;
- frontera:ninguno;
- radio fronterizo:10px;
- fondo:#ff4b5c;
- color:blanco;
- tamaño de fuente:16px;
- cursor:puntero;
- transición:0,3s;
+button{
+padding:12px 25px;
+border:none;
+border-radius:10px;
+background:#ff4b6c;
+color:white;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
 }
 
-botón:hover{
- transformar:escala(1.05);
+button:hover{
+transform:scale(1.05);
 }
 
-entrada{
- aclamado:12px;
- ancho:80%;
- radio fronterizo:10px;
- frontera:ninguno;
- margen superior:10px;
+input{
+padding:12px;
+border-radius:10px;
+border:none;
+margin-top:10px;
+width:80%;
 }
 
-. .oculto{
- visualizar:ninguno;
-}
-
-. .pequeño{
- tamaño de fuente:14px;
- opacidad:0,8;
- margen inferior:15px;
+.oculto{
+display:none;
+margin-top:20px;
 }
 
 @keyframes fadeIn{
- desde{opacidad:0; transformar:traduciry(20px);}
- a{opacidad:1; transformar:traducirY(0);}
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1; transform:translateY(0);}
 }
-</estilo>
-</cabeza>
-<cuerpo>
+</style>
+</head>
 
-<audio autoplay bucle>
-<fuente src="https://cdn.pixabay.com/audio/2022/03/15/audio_1c6b3f9d7b.mp3" tipo="audio/mpeg">
-</audio>
+<body>
 
-<div clase="tarjeta" id=„tarjeta principal">
+<div class="tarjeta">
+<h2>💌 Solo para ti mi niña hermosa</h2>
+<p>🎵 Reproduce “Por Qué Sin Ti – Claudio Alcaraz” mientras lees esto ❤️</p>
 
-<p class="small">
-🎵 Reproduce “Por Qué Sin Ti – Claudio Alcaraz” mientras haces esto ❤️
-</p>
+<h3>Responde y desbloquea algo especial 💖</h3>
 
-<h2>Responde y desbloquea algo especial 💌</h2>
-
-<form id="quizForm" action="https://formspree.io/f/mykdozrr" method="POST">
-
-<div id="question"></div>
-
-<input type="text" id="answer" required>
-<input type="hidden" name="todas_las_respuestas" id="allAnswers">
-
+<input type="text" id="respuesta" placeholder="Escribe algo bonito...">
 <br><br>
-<button type="button" onclick="nextQuestion()">Responder</button>
+<button onclick="mostrar()">Responder</button>
 
-<div id="secret" class="hidden">
-<h3>💖 Mi respuesta:</h3>
-<p id="Texto secreto"></p>
+<div id="mensaje" class="oculto">
+<h2>💖 Te amo mucho mi niña Estefi 💖</h2>
+<p>Eres lo más bonito que me ha pasado ❤️</p>
 </div>
 
-</forma>
 </div>
 
 <script>
-
-si(almacenamiento local. .obtener elemento("Cuestionario completado")){
-  documento. .getElementById(„tarjeta principal").HTML interno =
-  "<h2>💌 Este mensaje ya fue desbloqueado 💌</h2>";
+function mostrar(){
+let texto = document.getElementById("respuesta").value;
+if(texto.trim() !== ""){
+document.getElementById("mensaje").style.display="block";
 }
-
-const preguntas = [
-"¿Cuál es tu color favorito?",
-"¿Qué ciudad te gusta conocer?",
-"¿Qué momento de tu vida te hace crecer más?",
-"¿Qué valores son más importantes para ti?",
-"¿Cuál es tu estación del año favorita?",
-"¿Qué es lo que más te hace reír?",
-"¿Qué frase te motiva en los días más difíciles?",
-"¿Qué lugar te hace sentir más en paz?",
-"¿Qué es lo que más valores en una relación?",
-"¿Cuál es tu recuerdo de infancia favorito?"
-];
-
-const Mis secretos = [
-"Postre favorito: Tú ❤️",
-"Fruta favorita: Kiwi 🥝",
-"Comida favorita: Tacos dorados 🌮",
-"Comida rápida favorita: Pizza 🍕",
-"Bebida favorita: Delawer 🥤",
-"Color favorito: Azul y rojo 💙❤️",
-"Pasatiempo favorito: Estar contigo 🥰",
-"Película favorita: La que sea mientras esté contigo 🎬❤️"
-];
-
-dejar real = 0;
-dejar respuestas recopiladas = [];
-
-función siguiente pregunta(){
-  const respuesta = documento. . . . . . . . .getElementById("respuesta").valor;
- si(respuesta === "") retorno;
-
-  respuestas recopiladas. . . . . . . . .empujar(
-    preguntas[real] + " → " + respuesta
-  );
-
-  documento. . . . . . . . .getElementById(„Texto secreto").texto interno =
-    Mis secretos[Matemáticas. . . . . . . . .suelo(Matemáticas. . . . . . . . .aleatorio() * Mis secretos.longitud)];
-
-  documento. . . . . . . . .getElementById("secreto").lista de clases. . . . . . . . .eliminatorio("oculto");
-
- setTimeout(()=>{
-    documento. . . . . . . . .getElementById("secreto").lista de clases. . . . . . . . .agragar("oculto");
-    documento. . . . . . . . .getElementById("respuesta").valor = "";
-    real++;
-
-    si(real < preguntas.longitud){
-      documento. . . . . . . . .getElementById("pregunta").HTML interno =
-        "<h3>" + preguntas[real] + "</h3>";
-    } else {
-
-      documento. . . . . . . . .getElementById("todas las respuestas").valor =
-        respuestas recopiladas. . . . . . . . .unirse("\n");
-
-      almacenamiento local. . .establecer elemento("Cuestionario completo", "verdadero");
-
-      documento. . . . . . . . .getElementById("formulario de cuestionario"). . . . . . . . .presentar();
-
-      documento. . . . . . . . .getElementById(„tarjeta principal").HTML interno =
-        "<h1 style='animation:fadeIn 2s;'>Te amo mucho mi niña Estefi ❤️</h1>";
-
-    }
-
-  
-  }, 3000);
 }
-
-documento. . . . . . . . .getElementById("pregunta").HTML interno =
-"<h3>" + preguntas[real] + "</h3>";
-
 </script>
 
-</cuervo>
-</html</
+</body>
+</html>
